@@ -27,6 +27,22 @@
         }
     }
 
+    public static class Numerics
+    {
+        public static class BufferSizes
+        {
+            public const int DataTransferBuffer = 1024;
+            public const int GetMIDStringBuilderBuffer = 1024;
+        }
+
+        // all the timeouts are expected to be received in milliseconds
+        public static class Timeouts
+        {
+            public const int DataTransferIterationTimeout = 1;
+            public const int OpenTransferWaitForTransferTermination = 5000;
+        }
+    }
+
     public static class ErrorCodes
     {
         public const int ERROR_SUCCESS = 0;

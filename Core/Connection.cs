@@ -36,10 +36,12 @@ namespace SimplifiedCore
          */
         private void TransferMain( CancellationToken transferLoopToken )
         {
-            byte[] data = new byte[1024];
-
             while (!transferLoopToken.IsCancellationRequested)
             {
+                // Rexarrior claimed there was a bug, when this array
+                // was being created outside the loop and putting
+                // the code line inside fixes it
+                byte[] data = new byte[Numerics.BufferSizes.DataTransferBuffer];
 
                 // UNSAFE code here - this freezes, if
                 // DLL's GetData or DispatchData hangs
@@ -47,6 +49,8 @@ namespace SimplifiedCore
                 // SNIFF_POINT Point, when we can sniff and analyse messages
                 _Receiver.DispatchData(data);
 
+                // OPTIONAL - a very short sleep to prevent high CPU loading
+                Thread.Sleep(Numerics.Timeouts.DataTransferIterationTimeout);
             }
         }
 
@@ -79,7 +83,7 @@ namespace SimplifiedCore
                      */
                     if (_TransferThread.IsAlive)
                     {
-                        if (!_TransferThread.Join(5000)) // wait 5 seconds
+                        if (!_TransferThread.Join(Numerics.Timeouts.OpenTransferWaitForTransferTermination)) // wait 5 seconds
                         {
                             return ErrorCodes.PREVIOUS_RUN_DOESNT_TERMINATE;
                         }

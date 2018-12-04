@@ -300,11 +300,12 @@ __pycache__/
 
 Properties/
 
-# May be better to not ignore this
 App.config
 
 *.csproj
 *.sln
 
 Core/Program.cs
-SimplifiedCore/DLLTests
+
+# files for installing this system on third-parties machines
+Solutions

@@ -17,6 +17,7 @@ using System.IO;
  * it's exatcly about it being unsafe) - make it safer
  * TODO - implement/rework
  * SNIFF_POINT - where we can mitm the messages
+ * OPTIONAL - this may be omitted (especially consider it in Release versions)
  * 
  * BALANCE - make code (or comments) look more "balanced" and convenient
  */

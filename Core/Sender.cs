@@ -6,29 +6,29 @@ using System.Threading.Tasks;
 
 namespace SimplifiedCore
 {
-    class Receiver : IDefinedEntity
+    class Sender : IDefinedEntity
     {
         private UInt32 _ID;
 
         private GetMID_Delegate _GetMIDRoutine;
         private MatchMID_Delegate _MatchMIDRoutine;
 
-        private DispatchData_Delegate _DispatchDataRoutine;
+        private GetData_Delegate _GetDataRoutine;
 
         private CloseConnection_Delegate _CloseConnectionRoutine;
 
         public string GetMID()
         {
-            StringBuilder buffer = new StringBuilder(1024);
+            StringBuilder buffer = new StringBuilder(Numerics.BufferSizes.GetMIDStringBuilderBuffer);
 
-            _GetMIDRoutine( _ID, buffer );
+            _GetMIDRoutine(_ID, buffer);
 
             return buffer.ToString();
         }
 
         public bool MatchMID(string id)
         {
-            return (_MatchMIDRoutine( _ID, id ) != 0);
+            return (_MatchMIDRoutine(_ID, id) != 0);
         }
 
         public void AcceptID(UInt32 id)
@@ -42,9 +42,9 @@ namespace SimplifiedCore
             _MatchMIDRoutine = matchMID;
         }
 
-        public void AcceptDispatchDataDelegate(DispatchData_Delegate dispatchData)
+        public void AcceptGetDataDelegate(GetData_Delegate getData)
         {
-            _DispatchDataRoutine = dispatchData;
+            _GetDataRoutine = getData;
         }
 
         public void AcceptCloseConnectionDelegate(CloseConnection_Delegate closeConnection)
@@ -52,9 +52,9 @@ namespace SimplifiedCore
             _CloseConnectionRoutine = closeConnection;
         }
 
-        public void DispatchData(byte[] data)
+        public void GetData(byte[] data)
         {
-            _DispatchDataRoutine( _ID, data );
+            _GetDataRoutine( _ID, data );
         }
 
         public void CloseConnection()
